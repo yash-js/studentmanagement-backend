@@ -118,6 +118,22 @@ exports.adminSignin = async (req, res) => {
   }
 };
 
+exports.deleteAdmin = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    await Admin.findByIdAndRemove({ _id: id }).exec((err, del) => {
+      if (err || !del) return res.json({ error: "Something Went Wrong!" });
+
+      return res.json({
+        message: "Admin deleted",
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.addStudent = async (req, res) => {
   try {
     const {
@@ -440,7 +456,7 @@ exports.scheduleExam = async (req, res) => {
       req.body;
 
     const existing = await Exam.findOne({ subject: subjectName });
-   
+
     if (existing) {
       return res.status(400).json({
         error: "Exam Already Scheduled For This Subject!",
@@ -584,7 +600,6 @@ exports.addResult = async (req, res) => {
     });
     await saveRes.save(async (err, mark) => {
       if (err || !mark) {
-    
         return res.status(400).json({
           error: "Something Went Wrong!",
         });
@@ -592,7 +607,7 @@ exports.addResult = async (req, res) => {
       const findMarks = await Mark.find({ enrollmentNumber });
       const findSubjects = await Subject.find({ semester });
       const findEmail = await Student.find({ enrollmentNumber });
-     
+
       if (findMarks.length === findSubjects.length) {
         const link = `https://project-sms.netlify.app/view/result/${enrollmentNumber}`;
         const mail = {
@@ -668,5 +683,3 @@ exports.deleteResult = async (req, res) => {
     });
   }
 };
-
-

@@ -20,7 +20,8 @@ const {
   addResult,
   viewResult,
   deleteResult,
-  sendMail,
+
+  deleteAdmin,
 } = require("../controllers/admin");
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.post("/signin", adminSignin);
 
 // Admin Route
 router.get("/view/admins", getAdmins);
+router.delete("/delete/admin/:id", deleteAdmin);
 
 // Student Routes
 router.post("/add/student", addStudent);
@@ -55,6 +57,5 @@ router.delete("/delete/subject/:id", deleteSubject);
 router.post("/add/result", addResult);
 router.get("/view/result/:enrollment", viewResult);
 router.delete("/delete/mark/:id", deleteResult);
-
 
 module.exports = router;
