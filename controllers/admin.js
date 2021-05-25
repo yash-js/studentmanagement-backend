@@ -440,7 +440,7 @@ exports.scheduleExam = async (req, res) => {
       req.body;
 
     const existing = await Exam.findOne({ subject: subjectName });
-    console.log(req.body);
+   
     if (existing) {
       return res.status(400).json({
         error: "Exam Already Scheduled For This Subject!",
@@ -584,7 +584,7 @@ exports.addResult = async (req, res) => {
     });
     await saveRes.save(async (err, mark) => {
       if (err || !mark) {
-        console.log("error");
+    
         return res.status(400).json({
           error: "Something Went Wrong!",
         });
@@ -592,7 +592,7 @@ exports.addResult = async (req, res) => {
       const findMarks = await Mark.find({ enrollmentNumber });
       const findSubjects = await Subject.find({ semester });
       const findEmail = await Student.find({ enrollmentNumber });
-      console.log(findEmail[0].email);
+     
       if (findMarks.length === findSubjects.length) {
         const link = `https://project-sms.netlify.app/view/result/${enrollmentNumber}`;
         const mail = {
@@ -669,12 +669,4 @@ exports.deleteResult = async (req, res) => {
   }
 };
 
-exports.sendMail = async (req, res) => {
-  try {
-    const { enrollmentNumber, sem } = req.params;
-    const findMarks = await Mark.find({ enrollmentNumber });
-    const findSubjects = await Subject.find({ semester: sem });
-    console.log(findMarks.length);
-    console.log(findSubjects.length);
-  } catch (error) {}
-};
+

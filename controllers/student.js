@@ -48,13 +48,13 @@ exports.resetPassword = async (req, res) => {
 
     const student = await Student.findOne({ email: req.body.email });
 
-    console.log(token);
+    
     if (student) {
       student.resetToken = token;
       student.expireToken = Date.now() + 3600000;
       await student.save((err, student) => {
         if (err || !student) {
-          console.log(err);
+          
           return res.status(400).json({
             error: "Something Went Wrong!",
           });
@@ -147,7 +147,7 @@ exports.getStudent = async (req, res) => {
 };
 
 exports.editName = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newname } = req.body;
@@ -174,7 +174,7 @@ exports.editName = async (req, res) => {
   }
 };
 exports.editSemester = async (req, res) => {
-  console.log(req.body);
+  
   try {
     const _id = req.params.id;
     const { newsemester } = req.body;
@@ -200,7 +200,7 @@ exports.editSemester = async (req, res) => {
   }
 };
 exports.editContact = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newcontact } = req.body;
@@ -226,7 +226,7 @@ exports.editContact = async (req, res) => {
   }
 };
 exports.editYear = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newyear } = req.body;
@@ -252,7 +252,7 @@ exports.editYear = async (req, res) => {
   }
 };
 exports.editEmail = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newemail, newusername } = req.body;
@@ -302,7 +302,7 @@ exports.editEmail = async (req, res) => {
   }
 };
 exports.editAddress = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newaddress } = req.body;
@@ -328,7 +328,7 @@ exports.editAddress = async (req, res) => {
   }
 };
 exports.editDepartment = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newdepartment } = req.body;
@@ -354,7 +354,7 @@ exports.editDepartment = async (req, res) => {
   }
 };
 exports.editDob = async (req, res) => {
-  console.log(req.body);
+
   try {
     const _id = req.params.id;
     const { newdob } = req.body;
