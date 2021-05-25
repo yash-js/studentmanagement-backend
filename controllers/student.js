@@ -59,7 +59,7 @@ exports.resetPassword = async (req, res) => {
             error: "Something Went Wrong!",
           });
         }
-        const link = "http://localhost:3000/new-password";
+        const link = "https://project-sms.netlify.app/new-password";
         const mail = {
           to: student.email,
           from: "yash@no-reply.com",

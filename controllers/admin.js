@@ -587,7 +587,7 @@ exports.addResult = async (req, res) => {
       const findEmail = await Student.find({ enrollmentNumber });
       console.log(findEmail[0].email);
       if (findMarks.length === findSubjects.length) {
-        const link = `http://localhost:3000/view/result/${enrollmentNumber}`;
+        const link = `https://project-sms.netlify.app/view/result/${enrollmentNumber}`;
         const mail = {
           to: findEmail[0].email,
           from: "yash@no-reply.com",
