@@ -54,11 +54,11 @@ exports.adminSignup = async (req, res) => {
         to: student.email,
         from: "yash@no-reply.com",
         subject: "Account Successfully Registered",
-        html: `<h2>Welcome, ${student.name}. </h2>
+        html: `<h2>Welcome, ${name}. </h2>
         <h4>You're Now an Admin of Student Management System</h4>
           <p>Your Login Credentials Are : </p>
-          <em>username: ${student.username}</em>
-          <em>password: ${password}</em>
+          <em>Email Id: ${email}</em>
+          <em>Password: ${password}</em>
   
 
 <h4><a href="https://project-sms.netlify.app/admin">Click Here To Login!</a></h4>
