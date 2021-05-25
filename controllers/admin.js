@@ -60,6 +60,11 @@ exports.adminSignup = async (req, res) => {
           <em>username: ${student.username}</em>
           <em>password: ${password}</em>
   
+
+<h4><a href="https://project-sms.netlify.app/admin">Click Here To Login!</a></h4>
+
+
+
           <footer>
           <p>-Admin Dept.</p>
           </footer>
@@ -194,6 +199,8 @@ exports.addStudent = async (req, res) => {
           <h4>Username: ${student.username}</h4>
           <h4>Password: ${password}</h4>
   
+<h4><a href="https://project-sms.netlify.app">Click Here To Login!</a></h4>
+          
           <footer>
           <p>-Admin Dept.</p>
           </footer>
