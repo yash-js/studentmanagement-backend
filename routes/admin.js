@@ -22,6 +22,7 @@ const {
   deleteResult,
   resetPassword,
   deleteAdmin,
+  newPassword,
 } = require("../controllers/admin");
 const router = express.Router();
 
