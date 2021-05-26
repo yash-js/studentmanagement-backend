@@ -20,7 +20,7 @@ const {
   addResult,
   viewResult,
   deleteResult,
-
+  resetPassword,
   deleteAdmin,
 } = require("../controllers/admin");
 const router = express.Router();
@@ -32,6 +32,8 @@ router.post("/signin", adminSignin);
 // Admin Route
 router.get("/view/admins", getAdmins);
 router.delete("/delete/admin/:id", deleteAdmin);
+router.post("/reset-password", resetPassword);
+router.post("/new-password", newPassword);
 
 // Student Routes
 router.post("/add/student", addStudent);

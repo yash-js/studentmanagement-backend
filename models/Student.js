@@ -41,7 +41,7 @@ const studentSchema = new Schema({
   },
   enrollmentNumber: String,
   resetToken: { type: String, default: "" },
-  expireToken: { type: Date, defaule: "" },
+  expireToken: { type: Date, default: "" },
 });
 
 module.exports = Student = mongoose.model("Student", studentSchema);

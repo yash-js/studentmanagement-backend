@@ -123,6 +123,98 @@ exports.adminSignin = async (req, res) => {
   }
 };
 
+exports.resetPassword = async (req, res) => {
+  try {
+    const token = await crypto.randomBytes(32).toString("hex");
+
+    const admin = await Admin.findOne({ email: req.body.email });
+
+    if (admin) {
+      admin.resetToken = token;
+      admin.expireToken = Date.now() + 3600000;
+      await student.save((err, admin) => {
+        if (err || !admin) {
+          return res.status(400).json({
+            error: "Something Went Wrong!",
+          });
+        }
+        const link = "https://project-sms.netlify.app/admin/new-password";
+        const mail = {
+          to: admin.email,
+          from: "yash@no-reply.com",
+          subject: "Password Reset Link",
+          html: `<h2>Hey, ${admin.name}</h2>
+            <h5>
+            Please
+            <a href=${link}/${token}>
+            Click Here</a> to reset your password.
+            </h5>
+            <footer>
+            <p>-Admin Dept.</p>
+            </footer>
+    
+          `,
+        };
+        transporter.sendMail(mail, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("Email sent: " + info.response);
+          }
+        });
+        return res.json({
+          message: "Password Reset Link Sent!",
+        });
+      });
+    } else {
+      return res.status(400).json({
+        error: "User Not Found!",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+exports.newPassword = async (req, res) => {
+  try {
+    const { password, cPassword, token } = req.body;
+    if (password !== cPassword) {
+      return res.status(400).json({
+        error: "Please Enter Same Password Twice!",
+      });
+    }
+    const findAdmin = await Admin.findOne({
+      resetToken: token,
+      expireToken: { $gt: Date.now() },
+    });
+
+    if (!findAdmin) {
+      return res.status(400).json({
+        error: "Password Reset Link is Invalid!",
+      });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(password, salt);
+    findAdmin.password = hashPassword;
+    findAdmin.resetToken = undefined;
+    findAdmin.expireToken = undefined;
+    findAdmin.save((err, admin) => {
+      if (err || !admin) {
+        return res.status(400).json({
+          error: "Something Went Wrong , Please Try Again!",
+        });
+      }
+      return res.json({
+        message: "Password Changed Successfully!",
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
