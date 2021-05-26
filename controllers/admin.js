@@ -19,11 +19,14 @@ exports.adminSignup = async (req, res) => {
   try {
     const { name, email, password, cPassword } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !cPassword) {
       return res.status(400).json({
         error: "All FIelds Are Required!",
       });
     }
+
+    if (password !== cPassword)
+      return res.status(400).json({ error: "Enter Same Password Twice!" });
 
     const existing = await Admin.findOne({ email });
 
@@ -51,7 +54,7 @@ exports.adminSignup = async (req, res) => {
       }
 
       const mail = {
-        to: student.email,
+        to: admin.email,
         from: "yash@no-reply.com",
         subject: "Account Successfully Registered",
         html: `<h2>Welcome, ${name}. </h2>
@@ -61,7 +64,9 @@ exports.adminSignup = async (req, res) => {
           <em>Password: ${password}</em>
   
 
-<h4><a href="https://project-sms.netlify.app/admin">Click Here To Login!</a></h4>
+        <h4>
+        <a href="https://project-sms.netlify.app/admin">Click Here To Login!</a>
+        </h4>
 
 
 
@@ -79,7 +84,7 @@ exports.adminSignup = async (req, res) => {
         }
       });
 
-      res.json(admin);
+      return res.json({ admin, message: "Admin Added!" });
     });
   } catch (error) {
     return res.status(400).json({
