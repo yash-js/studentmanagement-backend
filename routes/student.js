@@ -16,9 +16,11 @@ const {
   editDepartment,
   getExamScheduleBySem,
   getResult,
+  contact
 } = require("../controllers/student");
 
 router.post("/signin", login);
+router.post('/contact', contact)
 router.post("/reset-password", resetPassword);
 router.post("/new-password", newPassword);
 router.get("/view/student/:id", getStudent);

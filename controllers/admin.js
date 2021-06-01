@@ -144,11 +144,11 @@ exports.resetPassword = async (req, res) => {
           from: "yash@no-reply.com",
           subject: "Password Reset Link",
           html: `<h2>Hey, ${admin.name}</h2>
-            <h5>
+            <h4>
             Please
             <a href=${link}/${token}>
             Click Here</a> to reset your password.
-            </h5>
+            </h4>
             <footer>
             <p>-Admin Dept.</p>
             </footer>
@@ -421,6 +421,23 @@ exports.getByYear = async (req, res) => {
     const { year } = req.params;
 
     await Student.find({ year }, (err, student) => {
+      if (err || !student) {
+        return res.status(400).json({
+          error: "Something Went Wrong",
+        });
+      }
+
+      return res.json(student);
+    });
+  } catch (error) {
+    return console.log(error);
+  }
+};
+exports.getBySem = async (req, res) => {
+  try {
+    const { sem } = req.params;
+
+    await Student.find({ semester: sem }, (err, student) => {
       if (err || !student) {
         return res.status(400).json({
           error: "Something Went Wrong",

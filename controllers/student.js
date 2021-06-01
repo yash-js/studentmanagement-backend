@@ -48,13 +48,13 @@ exports.resetPassword = async (req, res) => {
 
     const student = await Student.findOne({ email: req.body.email });
 
-    
+
     if (student) {
       student.resetToken = token;
       student.expireToken = Date.now() + 3600000;
       await student.save((err, student) => {
         if (err || !student) {
-          
+
           return res.status(400).json({
             error: "Something Went Wrong!",
           });
@@ -65,11 +65,11 @@ exports.resetPassword = async (req, res) => {
           from: "yash@no-reply.com",
           subject: "Password Reset Link",
           html: `<h2>Hey, ${student.name}</h2>
-            <h5>
+            <h4>
             Please
             <a href=${link}/${token}>
             Click Here</a> to reset your password.
-            </h5>
+            </h4>
             <footer>
             <p>-Admin Dept.</p>
             </footer>
@@ -131,8 +131,56 @@ exports.newPassword = async (req, res) => {
         message: "Password Changed Successfully!",
       });
     });
-  } catch (error) {}
+  } catch (error) { }
 };
+
+exports.contact = async (req, res) => {
+  try {
+    const { email, subject, messageForAdmin } = req.body
+
+    if (!email || !subject || !messageForAdmin) return res.status(400).json({ error: "All Fields are Required!" })
+
+    const getAdmins = await Admin.find()
+
+    getAdmins.forEach(admin => {
+      const mail = {
+        to: admin.email,
+        from: "yash@no-reply.com",
+        subject: req.body.subject,
+        html: `<h2 ${key = admin._id}>Hey, a student with registered email id : ${req.body.email} has a query.</h2>
+          <h3> Message For you :</h3>
+
+         <p>${messageForAdmin}</p>
+
+
+      Reply student on <a href=mailto:${req.body.email}>${req.body.email}</a>
+
+
+        `,
+      };
+      transporter.sendMail(mail, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      })
+    });
+
+
+
+
+
+
+    return res.json({
+      message: "Message Sent to the Admin!",
+    });
+
+
+  } catch (error) {
+
+  }
+}
 
 exports.getStudent = async (req, res) => {
   const id = req.params.id;
@@ -174,7 +222,7 @@ exports.editName = async (req, res) => {
   }
 };
 exports.editSemester = async (req, res) => {
-  
+
   try {
     const _id = req.params.id;
     const { newsemester } = req.body;

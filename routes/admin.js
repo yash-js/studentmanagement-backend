@@ -23,6 +23,7 @@ const {
   resetPassword,
   deleteAdmin,
   newPassword,
+  getBySem
 } = require("../controllers/admin");
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.post("/add/student", addStudent);
 router.put("/edit/student/:id", updateStudent);
 router.delete("/delete/student/:id", deleteStudent);
 router.get("/view/students/:year", getByYear);
+router.get("/view/students/sem/:sem", getBySem);
 router.get("/view/students", getStudents);
 router.get("/view/students/all/:dept", getByDept);
 
